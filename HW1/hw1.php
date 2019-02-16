@@ -11,8 +11,6 @@
     tester_function();
 
     /**
-     * primeChecker
-     *
      * This function takes an integer input $n and returns true if $n is prime and returns false if $n is not prime.
      *
      * It uses the fact that one of the divisors must be smaller than or equal to squareroot of $n to reduce time complexity.
@@ -49,7 +47,13 @@
         return true;
     }
 
-    function printPrime($n)
+    /**
+     * This function returns a string of prime numbers up to n.
+     *
+     * @param $n
+     * @return string
+     */
+    function prime_function($n)
     {
         $primeOutputString = "";
         for ($i = 2; $i <= $n; $i++) {
@@ -57,14 +61,11 @@
                 $primeOutputString = $primeOutputString . $i . ' ';
             }
         }
-        echo $primeOutputString;
         return $primeOutputString;
     }
 
 
     /**
-     * tester_function
-     *
      * This function is used to test prime_function
      */
     function tester_function() {
@@ -77,8 +78,8 @@
         echo 'Test Case 1:<br>';
         echo 'Expected output for prime_function(10): ' . $expectedOutput1;
         echo '<br>';
-        echo 'Actual output for prime_function(10): ';
-        if (printPrime($test1) == $expectedOutput1) {
+        echo 'Actual output for prime_function(10): ' . prime_function($test1);
+        if (prime_function($test1) == $expectedOutput1) {
             echo '<br><br>Status: PASSED';
         }
         else {
@@ -91,8 +92,8 @@
 
         echo 'Test Case 2:<br>';
         echo 'Expected output for prime_function(0): <br>' . $expectedOutput2;
-        echo 'Actual output for prime_function(0): ';
-        if (printPrime($test2) == $expectedOutput2) {
+        echo 'Actual output for prime_function(0): ' . prime_function($test2);
+        if (prime_function($test2) == $expectedOutput2) {
             echo '<br><br>Status: PASSED';
         }
         else {
