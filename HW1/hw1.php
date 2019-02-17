@@ -78,7 +78,7 @@
         echo 'Test Case 1:<br>';
         echo 'Expected output for prime_function(10): ' . $expectedOutput1;
         echo '<br>';
-        echo 'Actual output for prime_function(10): ' . prime_function($test1);
+        echo "Actual output for prime_function($test1): " . prime_function($test1);
         if (prime_function($test1) == $expectedOutput1) {
             echo '<br><br>Status: PASSED';
         }
