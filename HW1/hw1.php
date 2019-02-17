@@ -71,8 +71,10 @@
     function tester_function() {
         $test1 = 10;
         $test2 = 0;
+        $test3 = 100;
         $expectedOutput1 = '2 3 5 7 ';
         $expectedOutput2 = '';
+        $expectedOutput3 = '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 ';
 
 
         echo 'Test Case 1:<br>';
@@ -99,4 +101,20 @@
         else {
             echo '<br><br>Status: FAILED';
         }
+
+        echo '<br><br><br><br>';
+
+        echo 'Test Case 3:<br>';
+        echo 'Expected output for prime_function(100): ' . $expectedOutput3;
+        echo '<br>';
+        echo "Actual output for prime_function($test3): " . prime_function($test3);
+        if (prime_function($test3) == $expectedOutput3) {
+            echo '<br><br>Status: PASSED';
+        }
+        else {
+            echo '<br><br>Status: FAILED';
+        }
+
+
+        echo '<br><br><br><br>';
     }
