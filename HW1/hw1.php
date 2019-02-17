@@ -102,7 +102,9 @@
             echo '<br><br>Status: FAILED';
         }
 
+
         echo '<br><br><br><br>';
+
 
         echo 'Test Case 3:<br>';
         echo 'Expected output for prime_function(100): ' . $expectedOutput3;
@@ -114,7 +116,4 @@
         else {
             echo '<br><br>Status: FAILED';
         }
-
-
-        echo '<br><br><br><br>';
     }
