@@ -15,7 +15,7 @@
 tester();
 
 function tester(){
-    $roman = "XIII";
+    $roman = "IX";
     RomanToNumber($roman);
 
 }
@@ -27,14 +27,21 @@ function RomanToNumber ($romanNum) {
 
     for ($i = 0; $i < strlen($romanNum); $i++) {
         $symbol = $romanNum[$i];
-        $result = $result + getNumberFromRomanSymbol($symbol);
+        $valueOfSymbol = getNumberFromRomanSymbol($symbol);
+
+        // Case 1: Value of symbol is less than next symbol
+        if ($valueOfSymbol < $romanNum[$i+1]) {
+
+        }
+        // Case 2: Value of symbol is
+
     }
 
     echo "The result is: $result<br>";
 
 }
 
-function getNumberFromRomanSymbol ($symbol) {
+function getValueFromRomanSymbol ($symbol) {
     if ($symbol == 'I')
         return 1;
     if ($symbol == 'V')
@@ -49,7 +56,7 @@ function getNumberFromRomanSymbol ($symbol) {
         return 500;
     if ($symbol == 'M')
         return 1000;
-    return 0;
+    return -1;
 }
 
 
@@ -70,6 +77,6 @@ function tester_function() {
     else {
         echo '<br><br>Status: FAILED';
     }
-    
+
     echo '<br><br><br><br>';
 }
