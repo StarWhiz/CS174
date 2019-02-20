@@ -10,12 +10,16 @@
 
 /*
  * As a rule of thumb, you should keep in mind that no letter should be repeated more than 3 times
+ * Tester must be done correctly!
  *
+ * Consider all inputs like VV if you want. but you don't have to
+ * Z
+ * Keep your functions small
  */
 tester();
 
 function tester(){
-    $roman = "IX";
+    $roman = "XCIX";
     RomanToNumber($roman);
 
 }
@@ -25,23 +29,49 @@ function RomanToNumber ($romanNum) {
     echo 'This is the start of RomanToNumber function: ';
     echo "<br>The roman number to be converted is: $romanNum<br>";
 
-    for ($i = 0; $i < strlen($romanNum); $i++) {
-        $symbol = $romanNum[$i];
-        $valueOfSymbol = getNumberFromRomanSymbol($symbol);
+    for ($i = 0; $i < strlen($romanNum) - 1; $i++) {
 
-        // Case 1: Value of symbol is less than next symbol
-        if ($valueOfSymbol < $romanNum[$i+1]) {
+
+        // TODO turn these into smaller functions
+        // Check string length before comparing with next number in string
+        if ($i+1 < strlen($romanNum)){
+            // Case 1: Value of symbol is less than next symbol
+            if ($romanNum[$i] < $romanNum[$i+1]) {
+                echo "Case2... <br>";
+                $biggerNumber =  getNumberFromRomanSymbol($romanNum[$i+1]);
+                $smallerNumber = getNumberFromRomanSymbol($romanNum[$i]);
+                $result = $biggerNumber - $smallerNumber;
+                $i++;
+            }
+            // Case 2: Value of symbol is greater than or equal to next symbol
+            else {
+                //TODO
+                echo "Case3... <br>";
+                // $valueOfSymbol = getNumberFromRomanSymbol(romanNum[$i]);
+
+
+            }
+        }
+        else {
+                echo "Case Exit...<br>";
+            // TODO: Gotta stop and return result here. cuz there's no more string after to check
 
         }
-        // Case 2: Value of symbol is
-
     }
-
-    echo "The result is: $result<br>";
+    if ($result == 0 ){
+        echo "input was invalid!";
+    }
+    else {
+        echo "The result is: $result<br>";
+    }
 
 }
 
-function getValueFromRomanSymbol ($symbol) {
+function checkValidInput ($string) {
+
+}
+
+function getNumberFromRomanSymbol ($symbol) {
     if ($symbol == 'I')
         return 1;
     if ($symbol == 'V')
