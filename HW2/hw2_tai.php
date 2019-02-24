@@ -43,14 +43,15 @@ function romanToNumber ($romanNum) {
             $nextNumber =  getNumberFromRomanSymbol($nextSymbol);
 
             // Case 1: Value of symbol is greater than or equal to next symbol
-            if ( $currentSymbol >= $nextSymbol ) {
+            if ( $currentNumber >= $nextNumber ) {
                 $result = $result + $currentNumber;
             }
 
             // Case 2: Value of symbol is less than the next symbol
             else {
-                $result = $result + $nextNumber - $currentNumber;
-                $i++;
+                $result = $result + ($nextNumber - $currentNumber);
+                $i = $i + 1;
+
             }
         }
 
@@ -110,7 +111,7 @@ function tester_function() {
     $test7 = "";
     $test8 = "IXIXVIIVXIVXCCMM";
     $test9 = "MMMCMXCIX";
-    $test10 = "I";
+    $test10 = "MCMXC";
 
     $expectedOutput1 = "9";
     $expectedOutput2 = "900";
@@ -121,8 +122,7 @@ function tester_function() {
     $expectedOutput7 = "*ERROR* (Invalid input. No string was specified.)";
     $expectedOutput8 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
     $expectedOutput9 = "3999";
-    $expectedOutput10 = "1";
-
+    $expectedOutput10 = "1990";
 
     $expectedOutputERR = "*ERROR* (Invalid input. Input is not a roman numeral.)";
 
@@ -215,7 +215,7 @@ function tester_function() {
         echo "STATUS: FAILED<br><br>";
     }
 
-    echo 'Test Case 10: Minimum number<br>*****************************************<br>';
+    echo 'Test Case 10: Mix of Subtractive Inputs<br>*****************************************<br>';
     echo "Expected output for romanToNumber('$test10'): " . $expectedOutput10 . '<br>';
     echo "Actual output for romanToNumber('$test10'): " . romanToNumber($test10) . '<br>';
     if ($expectedOutput10 == romanToNumber($test10)){
