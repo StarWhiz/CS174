@@ -16,59 +16,67 @@
  * Z
  * Keep your functions small
  */
-tester();
+tester_function();
 
-function tester(){
-    $roman = "XCIX";
-    RomanToNumber($roman);
 
-}
-function RomanToNumber ($romanNum) {
+function romanToNumber ($romanNum) {
     $result = 0;
 
-    echo 'This is the start of RomanToNumber function: ';
-    echo "<br>The roman number to be converted is: $romanNum<br>";
+    // Empty string edge case...
+    if ($romanNum == ""){
+        return "*ERROR* (Invalid input. No string was specified.)";
+    }
 
-    for ($i = 0; $i < strlen($romanNum) - 1; $i++) {
+    // Checking for ValidRomanNumerals...
+    if(!checkValidRomanNumeral($romanNum)) {
+        return "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    }
 
+    // Iterating through roman numeral string...
+    for ($i = 0; $i < strlen($romanNum); $i++) {
+        $currentSymbol = $romanNum[$i];
+        $currentNumber = getNumberFromRomanSymbol($currentSymbol);
 
-        // TODO turn these into smaller functions
-        // Check string length before comparing with next number in string
-        if ($i+1 < strlen($romanNum)){
-            // Case 1: Value of symbol is less than next symbol
-            if ($romanNum[$i] < $romanNum[$i+1]) {
-                echo "Case2... <br>";
-                $biggerNumber =  getNumberFromRomanSymbol($romanNum[$i+1]);
-                $smallerNumber = getNumberFromRomanSymbol($romanNum[$i]);
-                $result = $biggerNumber - $smallerNumber;
+        // Current symbol is not the last symbol
+        if ($i+1 < strlen($romanNum)) {
+            $nextSymbol = $romanNum[$i+1];
+            $nextNumber =  getNumberFromRomanSymbol($nextSymbol);
+
+            // Case 1: Value of symbol is greater than or equal to next symbol
+            if ( $currentSymbol >= $nextSymbol ) {
+                $result = $result + $currentNumber;
+            }
+
+            // Case 2: Value of symbol is less than the next symbol
+            else {
+                $result = $result + $nextNumber - $currentNumber;
                 $i++;
             }
-            // Case 2: Value of symbol is greater than or equal to next symbol
-            else {
-                //TODO
-                echo "Case3... <br>";
-                // $valueOfSymbol = getNumberFromRomanSymbol(romanNum[$i]);
-
-
-            }
         }
+
+        // Current symbol is the last symbol in string.
         else {
-                echo "Case Exit...<br>";
-            // TODO: Gotta stop and return result here. cuz there's no more string after to check
-
+            $result = $result + $currentNumber;
+            $i++;
         }
     }
-    if ($result == 0 ){
-        echo "input was invalid!";
-    }
-    else {
-        echo "The result is: $result<br>";
-    }
-
+    return $result;
 }
 
-function checkValidInput ($string) {
-
+/*
+ * This function checks if a string $romanNum is a valid roman numeral
+ *
+ * @returns true  // if valid
+ * @returns false // if invalid
+ */
+function checkValidRomanNumeral ($romanNum) {
+    // I got this regex expression from: https://stackoverflow.com/questions/37767472/check-for-the-validity-of-a-roman-number-difficult
+    if ( preg_match('/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $romanNum, $match)){
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 function getNumberFromRomanSymbol ($symbol) {
@@ -89,24 +97,163 @@ function getNumberFromRomanSymbol ($symbol) {
     return -1;
 }
 
-
 /**
  * This function is used to test prime_function
  */
 function tester_function() {
-    $test1 = 10;
-    $expectedOutput1 = '2 3 5 7 ';
+    $test1 = "IX";
+    $test2 = "CM";
+    $test3 = "ID";
+    $test4 = "XM";
+    $test5 = "VIIII";
+    $test6 = "TESTCASESFRIGGINGsuckasdf129348023184";
+    $test7 = "";
+    $test8 = "IXIXVIIVXIVXCCMM";
+    $test9 = "MMMCMXCIX";
+    $test10 = "I";
 
-    echo 'Test Case 1:<br>';
-    echo 'Expected output for prime_function(10): ' . $expectedOutput1;
-    echo '<br>';
-    echo "Actual output for prime_function($test1): " . prime_function($test1);
-    if (prime_function($test1) == $expectedOutput1) {
-        echo '<br><br>Status: PASSED';
+    $expectedOutput1 = "9";
+    $expectedOutput2 = "900";
+    $expectedOutput3 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    $expectedOutput4 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    $expectedOutput5 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    $expectedOutput6 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    $expectedOutput7 = "*ERROR* (Invalid input. No string was specified.)";
+    $expectedOutput8 = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+    $expectedOutput9 = "3999";
+    $expectedOutput10 = "1";
+
+
+    $expectedOutputERR = "*ERROR* (Invalid input. Input is not a roman numeral.)";
+
+    echo 'Test Case 1: Valid Subtractive Input 1<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test1'): " . $expectedOutput1 . '<br>';
+    echo "Actual output for romanToNumber('$test1'): " . romanToNumber($test1) . '<br>';
+    if ($expectedOutput1 == romanToNumber($test1)){
+        echo "STATUS: PASSED<br><br>";
     }
     else {
-        echo '<br><br>Status: FAILED';
+        echo "STATUS: FAILED<br><br>";
+    }
+    echo 'Test Case 2: Valid Subtractive Input 2<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test2'): " . $expectedOutput2 . '<br>';
+    echo "Actual output for romanToNumber('$test2'): " . romanToNumber($test2) . '<br>';
+    if ($expectedOutput2 == romanToNumber($test2)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
     }
 
-    echo '<br><br><br><br>';
+    echo 'Test Case 3: Invalid Subtractive Input 1<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test3'): " . $expectedOutput3 . '<br>';
+    echo "Actual output for romanToNumber('$test3'): " . romanToNumber($test3) . '<br>';
+    if ($expectedOutput3 == romanToNumber($test3)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 4: Invalid Subtractive Input 2<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test4'): " . $expectedOutput4 . '<br>';
+    echo "Actual output for romanToNumber('$test4'): " . romanToNumber($test4) . '<br>';
+    if ($expectedOutput4 == romanToNumber($test4)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 5: More than 3 consecutive symbols<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test5'): " . $expectedOutput5 . '<br>';
+    echo "Actual output for romanToNumber('$test5'): " . romanToNumber($test5) . '<br>';
+    if ($expectedOutput5 == romanToNumber($test5)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 6: Random String<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test6'): " . $expectedOutput6 . '<br>';
+    echo "Actual output for romanToNumber('$test6'): " . romanToNumber($test6) . '<br>';
+    if ($expectedOutput6 == romanToNumber($test6)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 7: Empty String<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test7'): " . $expectedOutput7 . '<br>';
+    echo "Actual output for romanToNumber('$test7'): " . romanToNumber($test7) . '<br>';
+    if ($expectedOutput7 == romanToNumber($test7)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 8: Random Roman Numeral Symbols<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test8'): " . $expectedOutput8 . '<br>';
+    echo "Actual output for romanToNumber('$test8'): " . romanToNumber($test8) . '<br>';
+    if ($expectedOutput8 == romanToNumber($test8)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 9: Maximum number<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test9'): " . $expectedOutput9 . '<br>';
+    echo "Actual output for romanToNumber('$test9'): " . romanToNumber($test9) . '<br>';
+    if ($expectedOutput9 == romanToNumber($test9)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
+
+    echo 'Test Case 10: Minimum number<br>*****************************************<br>';
+    echo "Expected output for romanToNumber('$test10'): " . $expectedOutput10 . '<br>';
+    echo "Actual output for romanToNumber('$test10'): " . romanToNumber($test10) . '<br>';
+    if ($expectedOutput10 == romanToNumber($test10)){
+        echo "STATUS: PASSED<br><br>";
+    }
+    else {
+        echo "STATUS: FAILED<br><br>";
+    }
 }
+
+/*
+ * This function checks if two characters together make a proper subtractive character in roman numerals.
+ * Proper subtractive characters are: IV, IX, XL, XC, CD, and CM.
+ *
+ * @returns true;  // if valid
+ * @returns false; // if invalid
+ *
+ * COMMENT: This function is no longer needed because it's taken care of
+ * by the regex of function checkValidRomanNumerals($romanNum)...
+ */
+
+/*
+function checkValidSubtractiveCharacters ($firstChar, $secondChar) {
+    $testString = $firstChar . $secondChar;
+    switch($testString) {
+        case 'IV':
+        case 'IX':
+        case 'XL':
+        case 'XC':
+        case 'CD':
+        case 'CM':
+            return true;
+            break;
+        default:
+            return false;
+    }
+}
+*/
+
+
+
