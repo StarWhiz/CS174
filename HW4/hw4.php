@@ -5,7 +5,6 @@
  * Date: 4/10/2019
  * Time: 6:17 PM
  *
- * Credits to: https://www.selftaughtjs.com/algorithm-sundays-converting-roman-numerals/
  */
 
 example();
@@ -20,28 +19,32 @@ function example() {
         </head>
         <body>
             Welcome to the site!<br><br>
-            <form method="post" action="hw4.php">
-				Please enter a string:
-				<input type="text" name="enteredString">
-				<input type="submit" name="submitString">
-			</form>
             <form method='post' action='hw4.php' enctype='multipart/form-data'>
-                Please Upload a .txt File:
-                <input type='file' name='fileToUpload' id='fileToUpload'>
-                <input type='submit' name="submitTxt" value='Upload'>
+            	Please enter a string:
+				<input type="text" name="enteredString">
+				<br>
+                Then, please Upload a .txt File and press Upload when done:
+                <input type='file' name='fileUpload' id='fileUpload'>
+                <input type='submit' name="submit" value='Upload'>
             </form>
         </body>
     </html>
 END;
 
-    if(isset($_POST["submitTxt"])) {
-        if ($_FILES['fileToUpload']['type'] == 'text/plain'){ // Check if this file is TXT
+    if(isset($_POST["submit"])) {
+        $userString = $_POST['enteredString']; // String Input From User
+
+        if ($_FILES['fileUpload']['type'] == 'text/plain'){ // Check if file Uploaded is a .txt file
             echo "This file is a txt file...";
         }
         else {
             echo "This file is not a txt file. Please try uploading again...";
         }
+
+        echo $userString;
     }
+
+
 }
 
 function homePage () {
