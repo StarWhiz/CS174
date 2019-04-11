@@ -19,17 +19,22 @@ function example() {
             <title>HW 4</title>
         </head>
         <body>
-            Welcome to the site!<br>
+            Welcome to the site!<br><br>
+            <form method="post" action="hw4.php">
+				Please enter a string:
+				<input type="text" name="enteredString">
+				<input type="submit" name="submitString">
+			</form>
             <form method='post' action='hw4.php' enctype='multipart/form-data'>
                 Please Upload a .txt File:
                 <input type='file' name='fileToUpload' id='fileToUpload'>
-                <input type='submit' name="submit" value='Upload'>
+                <input type='submit' name="submitTxt" value='Upload'>
             </form>
         </body>
     </html>
 END;
 
-    if(isset($_POST["submit"])) {
+    if(isset($_POST["submitTxt"])) {
         if ($_FILES['fileToUpload']['type'] == 'text/plain'){ // Check if this file is TXT
             echo "This file is a txt file...";
         }
