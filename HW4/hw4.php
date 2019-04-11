@@ -13,22 +13,30 @@ example();
 #tester_function();
 
 function example() {
-    //build a form
-//Asking user to upload a valid file
     echo <<< END
-
     <html>
         <head>
-            <title> File Upload </title>
+            <title>HW 4</title>
         </head>
-    <body>
-        Welcome to the site!<br>
-        <form method='post' action='hw4.php' enctype='multipart/form-data'>
-            Please Upload a .txt File:
-            <input type='file' name='filename' size='10'>
-            <input type='submit' value='Upload'>
-        </form>
+        <body>
+            Welcome to the site!<br>
+            <form method='post' action='hw4.php' enctype='multipart/form-data'>
+                Please Upload a .txt File:
+                <input type='file' name='fileToUpload' id='fileToUpload'>
+                <input type='submit' name="submit" value='Upload'>
+            </form>
+        </body>
+    </html>
 END;
+
+    if(isset($_POST["submit"])) {
+        if ($_FILES['fileToUpload']['type'] == 'text/plain'){ // Check if this file is TXT
+            echo "This file is a txt file...";
+        }
+        else {
+            echo "This file is not a txt file. Please try uploading again...";
+        }
+    }
 }
 
 function homePage () {
