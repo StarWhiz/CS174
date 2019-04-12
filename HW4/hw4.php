@@ -23,7 +23,7 @@ function example() {
             	Please enter a string:
 				<input type="text" name="enteredString">
 				<br>
-                Then, please Upload a .txt File and press Upload when done:
+                Then, please upload a .txt File:
                 <input type='file' name='fileUpload' id='fileUpload'>
                 <input type='submit' name="submit" value='Upload'>
             </form>
@@ -36,6 +36,9 @@ END;
 
         if ($_FILES['fileUpload']['type'] == 'text/plain'){ // Check if file Uploaded is a .txt file
             echo "This file is a txt file...";
+            $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
+            echo $theFile;
+
         }
         else {
             echo "This file is not a txt file. Please try uploading again...";
@@ -43,29 +46,10 @@ END;
 
         echo $userString;
     }
-
-
 }
 
-function homePage () {
-    echo <<<_END
-	<html>
-		<head>
-			<title>HW4: Tai Dao</title>
-		</head>
-		<body>
-			Welcome to the site!<br>
-			<form method="post" action="formtest2.php">
-				Please enter a string:
-				<input type="text" name="name">
-				<input type="submit" name="Upload">
-			</form>
-		</body>
-	</html>
-_END;
+function readStringToDB ($string) {
 
-}
-function readInputToDB ($input) {
 
 }
 
