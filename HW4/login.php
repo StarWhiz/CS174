@@ -1,5 +1,7 @@
 <?php
-    $hn = 'localhost';
-    $un = 'root';
-    $pw = 'tam2212!';
-    $db = 'hw4';
+    $servername = 'localhost';
+    $username = 'root';
+    $password = 'hw4password!';
+    $database = 'hw4';
+
+    #hw4password
