@@ -2,7 +2,7 @@
 require "header.php";
 
 
-printHeaderHTML1();
+    printSignUpHTML1();
 
     if(isset($_GET["error"])) {
         if ($_GET["error"] == "emptyfields") {
@@ -31,23 +31,24 @@ printHeaderHTML1();
     }
 
 
-printHeaderHTML2();
+    printSignUpHTML2();
 
-function printHTML1() {
+
+
+
+function printSignUpHTML1() {
     echo <<< END
-        
-        
 <main>
     <div class="wrapper-main">
         <section class="section-default">
-            <h1>Signup</h1>
+
 END;
 }
 
-function printHTML2() {
+function printSignUpHTML2() {
     echo <<< END
-        
-            <form action="includes/signup.inc.php" method ="post">
+            <form class="form-signup" action="includes/signup.inc.php" method="post">
+                <h1>Registration Form</h1>
                 <input type="text" name="uid" placeholder="Username">
                 <input type="text" name="mail" placeholder="E-mail">
                 <input type="password" name="pwd" placeholder="Password">
@@ -59,5 +60,7 @@ function printHTML2() {
 </main>
 END;
 }
+
+
 
 require "footer.php";

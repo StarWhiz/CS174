@@ -26,17 +26,18 @@
         echo <<< END
         <html>
             <head>
-                <link rel="stylesheet" type="text/css" href="style.css"/>
                 <meta charset="utf-8">
                 <meta name="description" content = "This is my homework 5 meta description..."
                 <meta name=viewport content="width=device-width, initial-scale=1">
-                <title>Homework 5 Authentication</title>
+                <title>174 Final Project</title>
+                <link rel="stylesheet" type="text/css" href="style.css"/>
             </head>
             <body>
+            
                 <header>
                     <nav class="nav-header-main">
                             <a class="header-logo" href="index.php">
-                              <img src="img/logo.png" alt="mmtuts logo">
+                              <img src="img/logo.png" alt="Tai Logo">
                             </a>
                           </nav>
                           <div class="header-login">
