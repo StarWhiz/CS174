@@ -39,9 +39,17 @@ END;
     }
     else {
         if(isset($_GET["error"])) {
-            //TODO
+            if ($_GET["error"] == "emptyfields") {
+                echo '<p class="signuperror">Can\'t login. Either username and/or password fields were empty...</p>';
+            }
+            else if ($_GET["error"] == "wrongpwd") {
+                echo '<p class="signuperror">Can\'t login. Password or username Is Incorrect...</p>';
+            }
         }
-        echo '<p class = "login-status">You are logged out!</p>';
+        else {
+            echo '<p class = "login-status">Status: Not Logged In</p>';
+        }
+
     }
 
     printIndexHTML2();
