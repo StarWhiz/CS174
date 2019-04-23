@@ -1,8 +1,8 @@
 <?php
-$servername = 'localhost';
-$dBUsername = 'root';
-$dBPassword = 'hw4password!';
-$dBName = 'project';
+$servername = '138.68.9.254';
+$dBUsername = 'engrdudes';
+$dBPassword = 'CMPE172project!';
+$dBName = 'project174';
 
 $conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);
 

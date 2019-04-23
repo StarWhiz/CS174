@@ -2,7 +2,14 @@
     require "header.php";
     require "footer.php";
 
-    printIndex();
+    if (isset($_SESSION['userId'])) {
+        echo '<p class = "login-status">You are logged in!</p>';
+    }
+    else {
+        echo '<p class = "login-status">You are logged out!</p>';
+    }
+
+    #printIndex();
 
     function printIndex()
     {
@@ -10,8 +17,7 @@
         
         
         <main>
-            <p>You are logged out!</p>
-            <p>You are logged in!</p>
+
         </main>
 
 
