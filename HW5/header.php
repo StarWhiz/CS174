@@ -16,7 +16,7 @@
                 <input type="password" name="pwd" placeholder="Password">
                 <button type="submit" name="login-submit">Login</button>
             </form>
-            <a href="signup.php">Signup</a>';
+            <a href="signup.php" class="header-signup">Signup</a>';
     }
 
     printHTML2();
@@ -26,7 +26,7 @@
         echo <<< END
         <html>
             <head>
-                <link rel="stylesheet" type="text/css" href="header.css"/>
+                <link rel="stylesheet" type="text/css" href="style.css"/>
                 <meta charset="utf-8">
                 <meta name="description" content = "This is my homework 5 meta description..."
                 <meta name=viewport content="width=device-width, initial-scale=1">
@@ -34,11 +34,12 @@
             </head>
             <body>
                 <header>
-                    <a href="#">
-                        <img src="img/blackholechan.jpg" alt="logo" width="300" height="423">
-                    </a>
-                    
-                    <div class="header-login">
+                    <nav class="nav-header-main">
+                            <a class="header-logo" href="index.php">
+                              <img src="img/logo.png" alt="mmtuts logo">
+                            </a>
+                          </nav>
+                          <div class="header-login">
 END;
     }
 
