@@ -2,6 +2,8 @@
     require "header.php";
     require "footer.php";
 
+    printIndex();
+
     if (isset($_SESSION['userId'])) {
         echo '<p class = "login-status">You are logged in!</p>';
     }
@@ -9,7 +11,7 @@
         echo '<p class = "login-status">You are logged out!</p>';
     }
 
-    #printIndex();
+    printIndex2();
 
     function printIndex()
     {
@@ -17,10 +19,18 @@
         
         
         <main>
-
-        </main>
-
+            <div class="wrapper-main">
+                <section class="section-default">
+                
 
 END;
+    }
 
+    function printIndex2()
+    {
+        echo <<< END
+              </section>
+                </div>
+            </main>
+END;
     }

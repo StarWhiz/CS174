@@ -37,8 +37,9 @@ if (isset($_POST['login-submit'])) {
                 // Password matches password in db
                 else if ($pwdCheck == true) {
                     session_start();
-                    $_SESSION['userId'] = $row['[idUsers'];
-                    $_SESSION['userUid'] = $row['[uidUsers'];
+                    $_SESSION['userId'] = $row['idUsers'];
+                    $_SESSION['userUid'] = $row['uidUsers'];
+
 
                     header("Location: ../index.php?login=success");
                     exit();

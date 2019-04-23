@@ -1,10 +1,8 @@
 <?php
+    // Start Page Is HERE
+    // Credits to: https://www.youtube.com/watch?v=LC9GaXkdxF8 for the tutorial 1:39:27
+    // Written By: Tai Dao
     session_start();
-
-// Start Page Is HERE
-// Credits to: https://www.youtube.com/watch?v=LC9GaXkdxF8 for the tutorial 1:39:27
-// Written By: Tai Dao
-
     printHeader();
 
     if (isset($_SESSION['userId'])) {
@@ -13,8 +11,7 @@
             </form>';
     }
     else {
-        echo '                   
-            <form action="includes/login.inc.php" method="post">
+        echo '<form action="includes/login.inc.php" method="post">
                 <input type="text" name="mailuid" placeholder="Username/E-mail">
                 <input type="password" name="pwd" placeholder="Password">
                 <button type="submit" name="login-submit">Login</button>
@@ -35,20 +32,19 @@
             <title>Homework 5 Authentication</title>
         </head>
         <body>
-        
             <header>
                 <a href="#">
                     <img src="img/blackholechan.jpg" alt="logo" width="300" height="423">
                 </a>
                 
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                </ul>
-                
                 <div class="header-login">
 END;
     }
 
+    /*           <ul>
+                    <li><a href="index.php">Home</a></li>
+                </ul>
+    */
     function printHeader2() {
         echo <<< END
 
