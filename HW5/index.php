@@ -17,7 +17,7 @@
     {
         echo <<< END
         
-        
+        <link rel="stylesheet" href="index.css"
         <main>
             <div class="wrapper-main">
                 <section class="section-default">
@@ -30,7 +30,7 @@ END;
     {
         echo <<< END
               </section>
-                </div>
-            </main>
+            </div>
+        </main>
 END;
     }

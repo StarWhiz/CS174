@@ -1,0 +1,15 @@
+body {
+    background-color: #66CCFF;
+}
+
+#header {
+    background-color: #EEEEEE;
+    color: white;
+    text-align: center;
+}
+
+#header-login {
+    background-color: #42f4c8;
+    color: white;
+    text-align: center;
+}
