@@ -1,13 +1,11 @@
 <?php
 
-    printFooter();
-    function printFooter()
+    printFooterHTML();
+    function printFooterHTML()
     {
         echo <<< END
             <footer>
             
             </footer>
-            </body>
-            </html>
 END;
     }

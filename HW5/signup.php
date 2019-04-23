@@ -2,7 +2,7 @@
 require "header.php";
 
 
-printSignup();
+printHeaderHTML1();
 
     if(isset($_GET["error"])) {
         if ($_GET["error"] == "emptyfields") {
@@ -31,9 +31,9 @@ printSignup();
     }
 
 
-printSignup2();
+printHeaderHTML2();
 
-function printSignup() {
+function printHTML1() {
     echo <<< END
         
         
@@ -44,7 +44,7 @@ function printSignup() {
 END;
 }
 
-function printSignup2() {
+function printHTML2() {
     echo <<< END
         
             <form action="includes/signup.inc.php" method ="post">

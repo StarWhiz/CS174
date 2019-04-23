@@ -3,7 +3,7 @@
     // Credits to: https://www.youtube.com/watch?v=LC9GaXkdxF8 for the tutorial 1:39:27
     // Written By: Tai Dao
     session_start();
-    printHTML1();
+    printHeaderHTML1();
 
     if (isset($_SESSION['userId'])) {
         echo '<form action="includes/logout.inc.php" method="post">
@@ -19,9 +19,9 @@
             <a href="signup.php" class="header-signup">Signup</a>';
     }
 
-    printHTML2();
+    printHeaderHTML2();
 
-    function printHTML1()
+    function printHeaderHTML1()
     {
         echo <<< END
         <html>
@@ -43,11 +43,7 @@
 END;
     }
 
-    /*           <ul>
-                    <li><a href="index.php">Home</a></li>
-                </ul>
-    */
-    function printHTML2() {
+    function printHeaderHTML2() {
         echo <<< END
                 </div>
             </header>
