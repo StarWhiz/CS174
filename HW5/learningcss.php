@@ -13,7 +13,7 @@
                 <div id ="nav">
                     <h3>Navigation</h3>
                     <ul>
-                        <li>Home</li>
+                        <li><a class="selected" href="">Home</li>
                         <li>About</li>
                         <li>Contact</li>
                     </ul>
