@@ -47,7 +47,7 @@ END;
 
 function printSignUpHTML2() {
     echo <<< END
-            <form class="form-signup" action="includes/signup.inc.php" method="post">
+            <form class="form-signup" action="signup_inc.php" method="post">
                 <h1>Registration Form</h1>
                 <input type="text" name="uid" placeholder="Username">
                 <input type="text" name="mail" placeholder="E-mail">

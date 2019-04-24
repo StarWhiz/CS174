@@ -2,7 +2,7 @@
 
 // Can only access this page if they press the login button.
 if (isset($_POST['login-submit'])) {
-    require 'dbh.inc.php';
+    require 'database_inc.php';
     $mailuid = $_POST['mailuid'];
     $password = $_POST['pwd'];
 
@@ -10,7 +10,7 @@ if (isset($_POST['login-submit'])) {
     echo $password;
 
     if (empty($mailuid) || empty ($password)) {
-        header("Location: ../index.php?error=emptyfields");
+        header("Location: ./index.php?error=emptyfields");
         exit();
     }
     else {
@@ -18,7 +18,7 @@ if (isset($_POST['login-submit'])) {
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("Location: ../index.php?error=sqlerror");
+            header("Location: ./index.php?error=sqlerror");
             exit();
         }
         else {
@@ -30,7 +30,7 @@ if (isset($_POST['login-submit'])) {
 
                 // Password doesn't match password in db
                 if ($pwdCheck == false) {
-                    header("Location: ../index.php?error=wrongpwd");
+                    header("Location: ./index.php?error=wrongpwd");
                     exit();
                 }
 
@@ -41,19 +41,19 @@ if (isset($_POST['login-submit'])) {
                     $_SESSION['userUid'] = $row['uidUsers'];
 
 
-                    header("Location: ../index.php?login=success");
+                    header("Location: ./index.php?login=success");
                     exit();
                 }
 
                 // Other cases
                 else {
-                    header("Location: ../index.php?error=wronguidpwd");
+                    header("Location: ./index.php?error=wronguidpwd");
                     exit();
                 }
             }
             // Empty User
             else {
-                header("Location: ../index.php?error=nouser");
+                header("Location: ./index.php?error=nouser");
                 exit();
             }
 
@@ -61,6 +61,6 @@ if (isset($_POST['login-submit'])) {
     }
 }
 else {
-    header("Location: ../index.php");
+    header("Location: ./index.php");
     exit();
 }
