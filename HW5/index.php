@@ -1,9 +1,13 @@
 <?php
     require "header.php";
     require "footer.php";
+?>
+<!DOCTYPE html>
+<main>
+    <div class="wrapper-main">
+        <section class="section-default">
 
-    printIndexHTML1();
-
+    <?php
     if (isset($_SESSION['userId'])) {
         echo <<< END
         <body>
@@ -51,35 +55,26 @@ END;
         }
 
     }
-
-    printIndexHTML2();
-
-    function printIndexHTML1()
-    {
-echo <<< END
-        
-<main>
-    <div class="wrapper-main">
-        <section class="section-default">
-                        
-
-END;
-    }
-
-    function printIndexHTML2()
-    {
-echo <<< END
-
-      </section>
+?>
+        </section>
     </div>
 </main>
-END;
-    }
 
-    function saveStringToDB ($string) {
-        #TODO write string to database.
-    }
+<?php
+function saveStringToDB ($string) {
+    #TODO write string to database.
+}
 
-    function saveTxtFileToDB ($file) {
-        #TODO save file to database
-    }
+function saveTxtFileToDB ($file) {
+    #TODO save file to database
+}
+
+                        
+
+
+
+
+
+
+
+
