@@ -1,9 +1,14 @@
 <?php
 require "header.php";
+?>
+
+<!DOCTYPE html>
+<main>
+    <div class="wrapper-main">
+        <section class="section-default">
 
 
-    printSignUpHTML1();
-
+<?php
     if(isset($_GET["error"])) {
         if ($_GET["error"] == "emptyfields") {
             echo '<p class="signuperror">Fill in all fields!</p>';
@@ -29,24 +34,9 @@ require "header.php";
             echo '<p class="signupsuccess">Signup is successful!</p>';
         }
     }
+?>
 
 
-    printSignUpHTML2();
-
-
-
-
-function printSignUpHTML1() {
-    echo <<< END
-<main>
-    <div class="wrapper-main">
-        <section class="section-default">
-
-END;
-}
-
-function printSignUpHTML2() {
-    echo <<< END
             <form class="form-signup" action="signup_inc.php" method="post">
                 <h1>Registration Form</h1>
                 <input type="text" name="uid" placeholder="Username">
@@ -58,9 +48,6 @@ function printSignUpHTML2() {
         </section>
     </div>
 </main>
-END;
-}
 
-
-
+<?php
 require "footer.php";

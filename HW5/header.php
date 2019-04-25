@@ -5,8 +5,9 @@
     session_start();
     require "database_inc.php";
 ?>
-<!DOCTYPE html>
 
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -22,25 +23,32 @@
                 <a class="header-logo" href="index.php">
                     <img src="logo.png" alt="Tai Logo">
                 </a>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                </ul>
             </nav>
             <div class="header-login">
-                <?php
-                if (isset($_SESSION['userId'])) {
-                    echo'
-                    <form action="logout_inc.php" method="post">
-                        <button type="submit" name="logout-submit">Logout</button>
-                    </form>';
-                }
-                else {
-                    echo'
-                    <form action="login_inc.php" method="post">
-                        <input type="text" name="mailuid" placeholder="Username/E-mail">
-                        <input type="password" name="pwd" placeholder="Password">
-                        <button type="submit" name="login-submit">Login</button>
-                    </form>
-                    <a href="signup.php" class="header-signup">Signup</a>';
-                }
-                ?>
+
+
+<?php
+    if (isset($_SESSION['userId'])) {
+        echo'
+        <form action="logout_inc.php" method="post">
+            <button type="submit" name="logout-submit">Logout</button>
+        </form>';
+    }
+    else {
+        echo'
+        <form action="login_inc.php" method="post">
+            <input type="text" name="mailuid" placeholder="Username/E-mail">
+            <input type="password" name="pwd" placeholder="Password">
+            <button type="submit" name="login-submit">Login</button>
+        </form>
+        <a href="signup.php" class="header-signup">Signup</a>';
+    }
+?>
+
+
         </div>
     </header>
 </html>

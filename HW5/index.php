@@ -2,12 +2,15 @@
     require "header.php";
     require "footer.php";
 ?>
+
+
 <!DOCTYPE html>
 <main>
     <div class="wrapper-main">
         <section class="section-default">
 
-    <?php
+
+<?php
     if (isset($_SESSION['userId'])) {
         echo <<< END
         <body>
@@ -20,8 +23,7 @@
                 <input type='file' name='fileUpload' id='fileUpload'>
                 <input type='submit' name="fileSubmit" value='Upload'>
             </form>
-        </body>
-        
+        </body>        
 END;
         if(isset($_POST["submit"])) {
             $userString = $_POST['enteredString']; // String Input From User
@@ -56,9 +58,12 @@ END;
 
     }
 ?>
+
+
         </section>
     </div>
 </main>
+
 
 <?php
 function saveStringToDB ($string) {
