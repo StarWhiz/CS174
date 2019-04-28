@@ -226,3 +226,15 @@ color: #FFF;
 text-transform: uppercase;
 text-align: center;
 }
+
+table, th, td {
+border: 1px solid black;
+text-align: left;
+}
+
+h2 {
+text-align: left;
+font-size: 20px;
+font-family: arial;
+color: teal;
+}

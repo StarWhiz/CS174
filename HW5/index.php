@@ -47,6 +47,8 @@ END;
                 echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
             }
         }
+        //TODO Display user's uploads.
+        printUserContent($_SESSION['userId'], $conn);
     }
     else {
         if(isset($_GET["error"])) {
@@ -60,7 +62,6 @@ END;
         else {
             echo '<p class = "login-status">Status: Not Logged In</p>';
         }
-
     }
 ?>
 
@@ -100,9 +101,42 @@ function sanitizeMySQL($connection, $var) {
     return $var;
 }
 
+function printUserContent($userID, $conn) {
+    $sql = "SELECT stringContent, textFile FROM userContent WHERE idUsers='$userID'";
+    $resultCheck = $conn->query($sql);
+    $resultCheck = $conn->query($sql);
+    if (!$resultCheck) {
+        echo '<p class="uploaderror">Problem loading userData</p>';
+        die('execute() failed: ' . $conn->error);
+    }
+
+    echo '<br>';
+    echo '<br>';
+    echo '<br>';
+    echo '<h2>User Uploaded Content</h2>';
+    echo '<table>';
+    while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
+
+        $string = $row['stringContent'];
+        $file = $row['textFile'];
 
 
+        echo "<tr><td>";
+        echo "<div align=center>$string</div>";
+        echo "</td>";
+        echo "<td>";
+        echo "<div align=center>$file</div>";
+        echo "</td></tr>";
+
+
+    }
+    echo '</table>';
+
+}
+
+// SQL Create Tables I already did on the sql server...
 /*
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     idUsers int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
     uidUsers TINYTEXT NOT NULL,
@@ -111,6 +145,15 @@ CREATE TABLE users (
 );
 */
 
+/*
+DROP TABLE IF EXISTS userContent;
+CREATE TABLE userContent (
+uploadNum int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+idUsers int(11) NOT NULL,
+stringContent TINYTEXT NOT NULL,
+textFile TEXT
+);
+ */
 
 
 
