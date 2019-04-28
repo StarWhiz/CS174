@@ -195,3 +195,11 @@ h1 {
     color: green;
     text-align: center;
 }
+
+.uploadsuccess {
+padding-top: 14px;
+font-family: arial;
+font-size: 16px;
+color: green;
+text-align: left;
+}

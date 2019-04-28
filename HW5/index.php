@@ -1,6 +1,7 @@
 <?php
     require "header.php";
     require "footer.php";
+    require 'database_inc.php';
 ?>
 
 
@@ -26,21 +27,24 @@
         </body>        
 END;
         if(isset($_POST["fileSubmit"])) {
-            $userString = $_POST['enteredString']; // String Input From User
+            $maxFileSize = 65500; # ~64KB max size of TEXT
 
-            if ($_FILES['fileUpload']['type'] == 'text/plain'){ // Check if file Uploaded is a .txt file
-                echo "This file is a txt file...";
-                $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
-                echo $theFile;
-                saveTxtFileToDB($theFile);
+            if ($_FILES['fileUpload']['type'] == 'text/plain'){
+            // Check if file Uploaded is a .txt file
 
+                if ($_FILES['fileUpload']['size'] <= $maxFileSize) {
+                // Check if file is less than 64KB. If success do below...
+                    $theString = sanitizeString($_POST['enteredString']);
+                    $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
+                    saveUserContentToDB($theString, $theFile, $conn); # File sanitation done in function
+                }
+                else {
+                    echo "This file is too large. Please try uploading again with a txt file less than 64KB...";
+                }
             }
             else {
                 echo "This file is not a txt file. Please try uploading again...";
             }
-
-            echo $userString;
-            saveStringToDB($userString);
         }
     }
     else {
@@ -66,15 +70,36 @@ END;
 
 
 <?php
-function saveStringToDB ($string) {
-    #TODO write string to database.
+function saveUserContentToDB ($string, $file, $conn) {
+    $file = sanitizeMySQL($conn, $file); # sanitize file contents
+    $userID = $_SESSION['userId'];
+
+    $sql = "INSERT INTO userContent VALUES(NULL,'$userID', '$string', '$file')";
+
+    $resultCheck = $conn->query($sql);
+    if (!$resultCheck) {
+        die('execute() failed: ' . $conn->error);
+    }
+    else {
+        echo <<< END
+        <p class="uploadsuccess">File upload was successful!</p>
+END;
+
+    }
+
+}
+function sanitizeString($var) {
+    $var = stripslashes($var);
+    $var = strip_tags($var);
+    $var = htmlentities($var);
+    return $var;
 }
 
-function saveTxtFileToDB ($file) {
-    #TODO save file to database
+function sanitizeMySQL($connection, $var) {
+    $var = $connection->real_escape_string($var);
+    $var = sanitizeString($var);
+    return $var;
 }
-
-                        
 
 
 
@@ -83,7 +108,7 @@ CREATE TABLE users (
     idUsers int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
     uidUsers TINYTEXT NOT NULL,
     emailUsers TINYTEXT NOT NULL,
-    pwdUsers LONGTEXT NOT NULL
+    pwdUsers TINYTEXT NOT NULL
 );
 */
 
