@@ -1,9 +1,8 @@
 <?php
     require "header.php";
-    require "footer.php";
     require 'database_inc.php';
+    //TODO: Salt Hashed Passwords?
 ?>
-
 
 <!DOCTYPE html>
 <main>
@@ -47,7 +46,6 @@ END;
                 echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
             }
         }
-        //TODO Display user's uploads.
         printUserContent($_SESSION['userId'], $conn);
     }
     else {
@@ -115,7 +113,7 @@ function printUserContent($userID, $conn) {
     echo '<h2>User Uploaded Content</h2>';
     echo '<br>';
     echo '<table>';
-    echo "<tr><th>String</th><th>FileContents</th></tr>";
+    echo "<tr><th>String</th><th>File Contents</th></tr>";
     while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
 
         $string = $row['stringContent'];
