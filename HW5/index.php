@@ -2,6 +2,7 @@
     require "header.php";
     require 'database_inc.php';
     //TODO: Salt Hashed Passwords?
+    //TODO: Make sign up less of a pain if they sign up but enter wrong passwords
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
         <body>
             <h1>Welcome to the site!</h1><br><br>
             <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data'>
-                Please enter a string:
+                Please enter a string to describe your file:
                 <input type="text" name="enteredString">
                 <br>
                 Then, please upload a .txt File:
@@ -113,7 +114,7 @@ function printUserContent($userID, $conn) {
     echo '<h2>User Uploaded Content</h2>';
     echo '<br>';
     echo '<table>';
-    echo "<tr><th>String</th><th>File Contents</th></tr>";
+    echo "<tr><th>Content Name</th><th>File Content</th></tr>";
     while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
 
         $string = $row['stringContent'];
