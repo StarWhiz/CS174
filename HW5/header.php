@@ -34,20 +34,20 @@
     // Already Logged In
     if (isset($_SESSION['userId'])) {
         echo'
-        <form action="logout_inc.php" method="post">
-            <button type="submit" name="logout-submit">Logout</button>
-        </form>';
+                <form action="logout_inc.php" method="post">
+                    <button type="submit" name="logout-submit">Logout</button>
+                </form>';
     }
 
     // Not Logged In
     else {
         echo'
-        <form action="login_inc.php" method="post">
-            <input type="text" name="mailuid" placeholder="Username/E-mail">
-            <input type="password" name="pwd" placeholder="Password">
-            <button type="submit" name="login-submit">Login</button>
-        </form>
-        <a href="signup.php" class="header-signup">Signup</a>';
+                <form action="login_inc.php" method="post">
+                    <input type="text" name="mailuid" placeholder="Username/E-mail">
+                    <input type="password" name="pwd" placeholder="Password">
+                    <button type="submit" name="login-submit">Login</button>
+                </form>
+                <a href="signup.php" class="header-signup">Signup</a>';
     }
 ?>
 

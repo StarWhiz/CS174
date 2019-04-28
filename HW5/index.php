@@ -16,13 +16,13 @@
         echo <<< END
         <body>
             <h1>Welcome to the site!</h1><br><br>
-            <form method='post' action='index.php' enctype='multipart/form-data'>
+            <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data'>
                 Please enter a string:
                 <input type="text" name="enteredString">
                 <br>
                 Then, please upload a .txt File:
-                <input type='file' name='fileUpload' id='fileUpload'>
-                <input type='submit' name="fileSubmit" value='Upload'>
+                <input type='file' name='fileUpload' id='fileID'/>
+                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
             </form>
         </body>        
 END;
@@ -43,7 +43,8 @@ END;
                 }
             }
             else {
-                echo "This file is not a txt file. Please try uploading again...";
+                #echo "This file is not a txt file. Please try uploading again...";
+                echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
             }
         }
     }
@@ -78,13 +79,11 @@ function saveUserContentToDB ($string, $file, $conn) {
 
     $resultCheck = $conn->query($sql);
     if (!$resultCheck) {
+        echo '<p class="uploaderror">File upload failed!</p>';
         die('execute() failed: ' . $conn->error);
     }
     else {
-        echo <<< END
-        <p class="uploadsuccess">File upload was successful!</p>
-END;
-
+        echo '<p class="uploadsuccess">File upload was successful!</p>';
     }
 
 }

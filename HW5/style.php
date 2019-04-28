@@ -196,10 +196,33 @@ h1 {
     text-align: center;
 }
 
+.uploaderror {
+padding-top: 14px;
+font-family: arial;
+font-size: 16px;
+color: red;
+text-align: left;
+}
+
+
 .uploadsuccess {
 padding-top: 14px;
 font-family: arial;
 font-size: 16px;
 color: green;
 text-align: left;
+}
+
+.uploadButton {
+height: 25px;
+padding: 0 10px;
+border: none;
+border-radius: 4px;
+background-color: teal;
+margin-left: 8px;
+font-family: arial;
+font-size: 13px;
+color: #FFF;
+text-transform: uppercase;
+text-align: center;
 }
