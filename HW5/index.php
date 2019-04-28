@@ -104,7 +104,6 @@ function sanitizeMySQL($connection, $var) {
 function printUserContent($userID, $conn) {
     $sql = "SELECT stringContent, textFile FROM userContent WHERE idUsers='$userID'";
     $resultCheck = $conn->query($sql);
-    $resultCheck = $conn->query($sql);
     if (!$resultCheck) {
         echo '<p class="uploaderror">Problem loading userData</p>';
         die('execute() failed: ' . $conn->error);
@@ -114,21 +113,17 @@ function printUserContent($userID, $conn) {
     echo '<br>';
     echo '<br>';
     echo '<h2>User Uploaded Content</h2>';
+    echo '<br>';
     echo '<table>';
+    echo "<tr><th>String</th><th>FileContents</th></tr>";
     while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
 
         $string = $row['stringContent'];
         $file = $row['textFile'];
 
-
-        echo "<tr><td>";
-        echo "<div align=center>$string</div>";
-        echo "</td>";
-        echo "<td>";
-        echo "<div align=center>$file</div>";
-        echo "</td></tr>";
-
-
+        echo "<tr><td>$string</td>";
+        echo "<td>$file</td>";
+        echo "</tr>";
     }
     echo '</table>';
 
