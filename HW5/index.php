@@ -25,7 +25,7 @@
             </form>
         </body>        
 END;
-        if(isset($_POST["submit"])) {
+        if(isset($_POST["fileSubmit"])) {
             $userString = $_POST['enteredString']; // String Input From User
 
             if ($_FILES['fileUpload']['type'] == 'text/plain'){ // Check if file Uploaded is a .txt file
@@ -78,7 +78,14 @@ function saveTxtFileToDB ($file) {
 
 
 
-
+/*
+CREATE TABLE users (
+    idUsers int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    uidUsers TINYTEXT NOT NULL,
+    emailUsers TINYTEXT NOT NULL,
+    pwdUsers LONGTEXT NOT NULL
+);
+*/
 
 
 

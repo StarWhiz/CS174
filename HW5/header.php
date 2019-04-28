@@ -1,5 +1,5 @@
 <?php
-    // Start Page Is HERE
+    // Start Page Is HERE. PAge 481 sanatizing input
     // Credits to: https://www.youtube.com/watch?v=LC9GaXkdxF8 for the tutorial 1:39:27
     // Written By: Tai Dao
     session_start();
@@ -14,7 +14,7 @@
         <meta name="description" content = "This is my homework 5 meta description..."
         <meta name=viewport content="width=device-width, initial-scale=1">
         <title>174 Final Project</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="style.php"/>
     </head>
     <body>
 
@@ -31,12 +31,15 @@
 
 
 <?php
+    // Already Logged In
     if (isset($_SESSION['userId'])) {
         echo'
         <form action="logout_inc.php" method="post">
             <button type="submit" name="logout-submit">Logout</button>
         </form>';
     }
+
+    // Not Logged In
     else {
         echo'
         <form action="login_inc.php" method="post">
