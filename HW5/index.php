@@ -3,17 +3,14 @@
     require 'database_inc.php';
     //TODO: Salt Hashed Passwords?
     //TODO: Make sign up less of a pain if they sign up but enter wrong passwords
-?>
-
-<!DOCTYPE html>
+echo <<< END
 <main>
     <div class="wrapper-main">
         <section class="section-default">
+END;
 
-
-<?php
     if (isset($_SESSION['userId'])) {
-        echo <<< END
+echo <<< END
         <body>
             <h1>Welcome to the site!</h1><br><br>
             <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data'>
@@ -62,15 +59,13 @@ END;
             echo '<p class = "login-status">Status: Not Logged In</p>';
         }
     }
-?>
 
-
+echo <<< END
         </section>
     </div>
 </main>
+END;
 
-
-<?php
 function saveUserContentToDB ($string, $file, $conn) {
     $file = sanitizeMySQL($conn, $file); # sanitize file contents
     $userID = $_SESSION['userId'];

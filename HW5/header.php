@@ -4,10 +4,8 @@
     // Written By: Tai Dao
     session_start();
     require "database_inc.php";
-?>
 
-
-<!DOCTYPE html>
+echo <<< END
 <html>
     <head>
         <meta charset="utf-8">
@@ -28,9 +26,8 @@
                 </ul>
             </nav>
             <div class="header-login">
+END;
 
-
-<?php
     // Already Logged In
     if (isset($_SESSION['userId'])) {
         echo'
@@ -49,9 +46,9 @@
                 </form>
                 <a href="signup.php" class="header-signup">Signup</a>';
     }
-?>
 
+echo <<< END
         </div>
     </header>
 </html>
-
+END;
