@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['signup-submit'])) { # To make sure user can't get to this page by entering url.
-    require 'database_inc.php';
+    require_once 'database_inc.php';
 
     // Fetching fields from signup
     $username = $_POST['uid'];

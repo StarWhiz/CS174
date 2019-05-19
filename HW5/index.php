@@ -1,6 +1,6 @@
 <?php
-    require "header.php";
-    require 'database_inc.php';
+    require_once "header.php";
+    require_once 'database_inc.php';
     //TODO: Salt Hashed Passwords?
     //TODO: Make sign up less of a pain if they sign up but enter wrong passwords
 echo <<< END

@@ -1,9 +1,7 @@
 <?php
-    // Start Page Is HERE. PAge 481 sanatizing input
-    // Credits to: https://www.youtube.com/watch?v=LC9GaXkdxF8 for the tutorial 1:39:27
     // Written By: Tai Dao
     session_start();
-    require "database_inc.php";
+    require_once "database_inc.php";
 
 echo <<< END
 <html>
