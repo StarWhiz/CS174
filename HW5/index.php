@@ -54,6 +54,9 @@ END;
             else if ($_GET["error"] == "wrongpwd") {
                 echo '<p class="signuperror">Can\'t login. Password or username Is Incorrect...</p>';
             }
+            else if ($_GET["error"] == "nouser") {
+                echo '<p class="signuperror">Can\'t login. Username does not exist!</p>';
+            }
         }
         else {
             echo '<p class = "login-status">Status: Not Logged In</p>';
@@ -67,10 +70,10 @@ echo <<< END
 END;
 
 function saveUserContentToDB ($string, $file, $conn) {
-    $file = sanitizeMySQL($conn, $file); # sanitize file contents
+    $fileSanitized = sanitizeMySQL($conn, $file); # sanitize file contents
     $userID = $_SESSION['userId'];
 
-    $sql = "INSERT INTO userContent VALUES(NULL,'$userID', '$string', '$file')";
+    $sql = "INSERT INTO userContent VALUES(NULL,'$userID', '$string', '$fileSanitized')";
 
     $resultCheck = $conn->query($sql);
     if (!$resultCheck) {

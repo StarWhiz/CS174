@@ -19,15 +19,23 @@ else {
 );";
 
     if (mysqli_query($conn, $sql)) {
-        echo "Table users created successfully";
-    } else {
-        echo "Error creating table: " . mysqli_error($conn);
+        // Successfully created table
+    }
+    else {
+        echo "Error creating users table: " . mysqli_error($conn);
     }
 
     $sql2 = "CREATE TABLE IF NOT EXISTS userContent (
-uploadNum int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-idUsers int(11) NOT NULL,
-stringContent TINYTEXT NOT NULL,
-textFile TEXT
-);";
+    uploadNum int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    idUsers int(11) NOT NULL,
+    stringContent TINYTEXT NOT NULL,
+    textFile TEXT
+    );";
+
+    if (mysqli_query($conn, $sql2)) {
+        // Successfully created table
+    }
+    else {
+        echo "Error creating userContent table: " . mysqli_error($conn);
+    }
 }
