@@ -116,10 +116,12 @@ function printUserContent($userID, $conn) {
     while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
 
         $string = $row['stringContent'];
+        $htmlRdyString = htmlentities($string);
         $file = $row['textFile'];
+        $htmlRdyFile = htmlentities($file);
 
-        echo "<tr><td>$string</td>";
-        echo "<td>$file</td>";
+        echo "<tr><td>$htmlRdyString</td>";
+        echo "<td>$htmlRdyFile</td>";
         echo "</tr>";
     }
     echo '</table>';
