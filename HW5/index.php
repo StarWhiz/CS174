@@ -1,8 +1,8 @@
 <?php
     require_once "header.php";
     require_once 'database_inc.php';
-    //TODO: Salt Hashed Passwords?
     //TODO: Make sign up less of a pain if they sign up but enter wrong passwords
+
 echo <<< END
 <main>
     <div class="wrapper-main">
@@ -125,27 +125,3 @@ function printUserContent($userID, $conn) {
     echo '</table>';
     $conn -> close(); //TODO: make sure this doesnt break anything
 }
-
-// SQL Create Tables I already did on the sql server...
-/*
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-    idUsers int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    uidUsers TINYTEXT NOT NULL,
-    emailUsers TINYTEXT NOT NULL,
-    pwdUsers TINYTEXT NOT NULL
-);
-*/
-
-/*
-DROP TABLE IF EXISTS userContent;
-CREATE TABLE userContent (
-uploadNum int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-idUsers int(11) NOT NULL,
-stringContent TINYTEXT NOT NULL,
-textFile TEXT
-);
- */
-
-
-

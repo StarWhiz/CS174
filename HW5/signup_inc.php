@@ -63,7 +63,7 @@ if (isset($_POST['signup-submit'])) { # To make sure user can't get to this page
                 }
                 else {
                     //hashing password
-                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT);
+                    $hashedPwd = password_hash($password, PASSWORD_DEFAULT); // The default algorithm will generate a salt on it's own
 
                     mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPwd);
                     mysqli_stmt_execute($stmt);
