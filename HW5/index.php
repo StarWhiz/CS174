@@ -123,7 +123,7 @@ function printUserContent($userID, $conn) {
         echo "</tr>";
     }
     echo '</table>';
-
+    $conn -> close(); //TODO: make sure this doesnt break anything
 }
 
 // SQL Create Tables I already did on the sql server...

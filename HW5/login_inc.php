@@ -31,6 +31,7 @@ if (isset($_POST['login-submit'])) {
                 // Password doesn't match password in db
                 if ($pwdCheck == false) {
                     header("Location: ./index.php?error=wrongpwd");
+                    mysqli_stmt_close($result);
                     exit();
                 }
 
@@ -39,24 +40,24 @@ if (isset($_POST['login-submit'])) {
                     session_start();
                     $_SESSION['userId'] = $row['idUsers'];
                     $_SESSION['userUid'] = $row['uidUsers'];
-
-
                     header("Location: ./index.php?login=success");
+                    mysqli_stmt_close($result);
                     exit();
                 }
 
                 // Other cases
                 else {
                     header("Location: ./index.php?error=wronguidpwd");
+                    mysqli_stmt_close($result);
                     exit();
                 }
             }
             // Empty User
             else {
                 header("Location: ./index.php?error=nouser");
+                mysqli_stmt_close($result);
                 exit();
             }
-
         }
     }
 }
