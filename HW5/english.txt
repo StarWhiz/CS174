@@ -1,9 +1,11 @@
+a
 ability
 able
 about
 above
 accept
 according
+account
 across
 act
 action
@@ -13,11 +15,14 @@ add
 address
 administration
 admit
+adult
 affect
 after
 again
 against
 age
+agency
+agent
 ago
 agree
 agreement
@@ -30,14 +35,19 @@ alone
 along
 already
 also
+although
 always
 American
+among
 amount
 analysis
 and
 animal
 another
 answer
+any
+anyone
+anything
 appear
 apply
 approach
@@ -82,6 +92,7 @@ behavior
 behind
 believe
 benefit
+best
 better
 between
 beyond
@@ -114,6 +125,7 @@ camera
 campaign
 can
 cancer
+candidate
 capital
 car
 card
@@ -126,6 +138,7 @@ cause
 cell
 center
 central
+century
 certain
 certainly
 chair
@@ -142,6 +155,7 @@ church
 citizen
 city
 civil
+claim
 class
 clear
 clearly
@@ -190,12 +204,14 @@ dead
 deal
 death
 debate
+decade
 decide
 decision
 deep
 defense
 degree
 Democrat
+democratic
 describe
 design
 despite
@@ -256,6 +272,8 @@ evening
 event
 ever
 every
+everybody
+everyone
 everything
 evidence
 exactly
@@ -391,6 +409,7 @@ important
 improve
 in
 include
+including
 increase
 indeed
 indicate
@@ -624,6 +643,7 @@ political
 politics
 poor
 popular
+population
 position
 positive
 possible
@@ -691,11 +711,13 @@ remember
 remove
 report
 represent
+Republican
 require
 research
 resource
 respond
 response
+responsibility
 rest
 result
 return
@@ -727,6 +749,7 @@ section
 security
 see
 seek
+seem
 sell
 send
 senior
@@ -754,6 +777,7 @@ sign
 significant
 similar
 simple
+simply
 since
 sing
 single
@@ -775,6 +799,7 @@ some
 somebody
 someone
 something
+sometimes
 son
 song
 soon
@@ -850,6 +875,7 @@ their
 them
 themselves
 then
+theory
 there
 these
 they
@@ -892,6 +918,7 @@ true
 truth
 try
 turn
+TV
 two
 type
 under
@@ -929,6 +956,7 @@ well
 west
 western
 what
+whatever
 when
 where
 whether

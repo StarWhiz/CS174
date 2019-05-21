@@ -45,11 +45,11 @@ function printLoggedInForms() {
     echo <<< END
         <body>
             <h1>Welcome back! You are logged in.</h1><br><br>
-            <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
+            <form method='post' action='index.php' enctype='text/plain' id="translateForm">
                 <textarea rows="8" cols="75" name="texttotranslate" form="translateform"> Enter text to translate here...</textarea>
                 <br>
                 <div align="center">
-                    <input type='submit' name="translateText" value='Submit Translation' class="uploadButton">
+                    <input type='submit' value='Submit Translation' class="uploadButton">
                 </div>
             </form>
             <br><br><br><br><br><br>
@@ -71,27 +71,47 @@ END;
 }
 
 function printDefaultForms() {
+    $sourceToTranslate = "";
     $translateResult = "Translated text appears here.";
-
-    if(isset($_POST["translateTextDefault"])) {
-        $translateResult = "there was no spoon";
+    if(isset($_POST["submitSourceTxt"])) {
+        $source = $_POST["sourceTxtToTranslate"];
+        $translateResult = translateWithDefaultModel($source);
     }
 
     echo <<< END
     <body>
         <h1>Welcome to the lame translator!</h1><br><br>
         <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
-            <textarea rows="8" cols="75" name="texttotranslate" form="translateform"> Enter text to translate here...</textarea>
+            <textarea name="sourceTxtToTranslate" rows="8" cols="75"> Enter text to translate here...</textarea>
             <br>
             <div align="center">
-                <input type='submit' name="translateTextDefault" value='Submit Translation' class="uploadButton">
+                <input type="submit" name="submitSourceTxt" value="Submit Translation" class="uploadButton">
             </div>
         </form>
+        
         <br>
         <textarea rows="8" cols="75">$translateResult</textarea>
     </body>
 END;
+}
 
+function translateWithDefaultModel ($source) {
+    $english_fp = "english.txt";
+    $latin_fp = "latin.txt";
+    if (file_exists($english_fp)){
+        fopen($english_fp,'r');
+    }
+    else {
+        echo "The file $english_fp does not exist!";
+    }
+    if (file_exists($latin_fp)){
+        fopen($latin_fp,'r');
+    }
+    else {
+        echo "The file $latin_fp does not exist!";
+    }
+    $sanitizedSource = sanitizeString($source);
+    return $sanitizedSource;
 }
 
 function listenEnglishUpload ($conn) {
@@ -170,9 +190,9 @@ function printUserContent($userID, $conn) {
     while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
 
         $string = $row['stringContent'];
-        $htmlRdyString = htmlentities($string);
+        $htmlRdyString = sanitizeString($string);
         $file = $row['textFile'];
-        $htmlRdyFile = htmlentities($file);
+        $htmlRdyFile = sanitizeString($file);
 
         echo "<tr><td>$htmlRdyString</td>";
         echo "<td>$htmlRdyFile</td>";
