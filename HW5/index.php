@@ -9,7 +9,8 @@ echo <<< END
 END;
 
     if (isset($_SESSION['userId'])) { //CASE: User is logged in...
-        printLoggedInForms();
+        $userID = $_SESSION['userId'];
+        printLoggedInForms($conn, $userID);
         listenUpload($conn);
     }
     else {
@@ -38,12 +39,18 @@ echo <<< END
 </main>
 END;
 
-function printLoggedInForms() {
+function printLoggedInForms($conn, $userID) {
     $translateResult = "Translated text appears here.";
     if(isset($_POST["submitSourceTxtV2"])) {
         $source = $_POST["sourceTxtToTranslateV2"];
-        $translateResult = translateWithDefaultModel($source);
-    }
+        $useUserModel = translateWithWhichModel($conn, $userID);
+        if ($useUserModel) {
+            //$translateResult = translateWithUserModel($source, $userID, $conn);
+        }
+        else
+            $translateResult = translateWithDefaultModel($source);
+        }
+
     echo <<< END
         <body>
             <h1>Welcome back! You are logged in.</h1><br><br>
@@ -73,7 +80,9 @@ function printLoggedInForms() {
             </form>
         </body>        
 END;
+
 }
+
 
 function printDefaultForms() {
     $translateResult = "Translated text appears here.";
@@ -143,6 +152,39 @@ function translateWithDefaultModel ($source) {
     return $translationOutput;
 }
 
+/*
+function translateWithUserModel ($source, $userID, $conn) {
+    $uploadNum = "";
+    $sql = "SELECT * WHERE idUsers='$userID'";
+    $resultCheck = $conn->query($sql);
+    if (!$resultCheck) {
+        echo '<p class="uploaderror">Problem loading userData</p>';
+        die('execute() failed: ' . $conn->error);
+    }
+    while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
+        $uploadNum = $row['uploadNum'];
+    }
+    if ($uploadNum == NULL) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}*/
+
+function translateWithWhichModel ($conn, $userID) {
+    $sql = "SELECT * WHERE idUsers='$userID'";
+    $resultCheck = $conn->query($sql);
+    if (!$resultCheck) {
+        return false;
+        echo '<p class="uploaderror">Problem loading userData</p>';
+        die('execute() failed: ' . $conn->error);
+    }
+    else {
+        return true;
+    }
+}
+
 function listenUpload ($conn) {
     if(isset($_POST["uploadTxtFiles"])) {
         $maxFileSize = 65500; # ~64KB max size of TEXT
@@ -164,20 +206,13 @@ function listenUpload ($conn) {
             #echo "This file is not a txt file. Please try uploading again...";
             echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
         }
-        $conn -> close(); // TODO: Do i need this here?
+        $conn -> close();
     }
-}
-
-function listenTranslateUpload ($conn) {
-
 }
 
 function saveUserContentToDB ($file1, $file2, $conn) {
     $file1Sanitized = sanitizeMySQL($conn, $file1); # sanitize file contents
     $file2Sanitized = sanitizeMySQL($conn, $file2); # sanitize file contents
-    print_r($file1Sanitized);
-    echo '<br>';
-    print_r($file2Sanitized);
     $userID = $_SESSION['userId'];
 
     $sql = "INSERT INTO usercontent VALUES(NULL,'$userID', '$file1Sanitized', '$file2Sanitized')";
@@ -204,38 +239,4 @@ function sanitizeMySQL($connection, $var) {
     $var = $connection->real_escape_string($var);
     $var = sanitizeString($var);
     return $var;
-}
-
-function printUserContent($userID, $conn) {
-    $sql = "SELECT stringContent, textFile FROM userContent WHERE idUsers='$userID'";
-    $resultCheck = $conn->query($sql);
-    if (!$resultCheck) {
-        echo '<p class="uploaderror">Problem loading userData</p>';
-        die('execute() failed: ' . $conn->error);
-    }
-
-    echo '<br>';
-    echo '<br>';
-    echo '<br>';
-    echo '<h2>User Uploaded Content</h2>';
-    echo '<br>';
-    echo '<table>';
-    echo "<tr><th>Content Name</th><th>File Content</th></tr>";
-    while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
-
-        $string = $row['stringContent'];
-        $htmlRdyString = sanitizeString($string);
-        $file = $row['textFile'];
-        $htmlRdyFile = sanitizeString($file);
-
-        echo "<tr><td>$htmlRdyString</td>";
-        echo "<td>$htmlRdyFile</td>";
-        echo "</tr>";
-    }
-    echo '</table>';
-    $conn -> close(); //TODO: make sure this doesnt break anything
-}
-
-function checkUploads($userID, $conn) {
-
 }
