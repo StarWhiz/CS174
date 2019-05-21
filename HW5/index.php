@@ -45,7 +45,7 @@ function printLoggedInForms($conn, $userID) {
         $source = $_POST["sourceTxtToTranslateV2"];
         $useUserModel = translateWithWhichModel($conn, $userID);
         if ($useUserModel) {
-            //$translateResult = translateWithUserModel($source, $userID, $conn);
+            $translateResult = translateWithUserModel($source, $userID, $conn);
         }
         else
             $translateResult = translateWithDefaultModel($source);
@@ -154,25 +154,42 @@ function translateWithDefaultModel ($source) {
 
 
 function translateWithUserModel ($source, $userID, $conn) {
-    $sql = "SELECT textFile1, textFile2 FROM usercontent WHERE idUsers='$userID'";
+    $translationOutput = "";
+
+    $sql = "SELECT textFile1, textFile2 FROM usercontent WHERE idUsers = $userID ORDER BY uploadNum LIMIT 1;";
     $resultCheck = $conn->query($sql);
     if (!$resultCheck) {
         echo '<p class="uploaderror">Problem loading userData</p>';
         die('execute() failed: ' . $conn->error);
     }
-    while ($row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC)) {
-        $uploadNum = $row['uploadNum'];
+
+    $sanitizedSource = sanitizeString($source);
+
+    $row = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC);
+
+    $file1content = $row['textFile1'];
+    $file2content = $row['textFile2'];
+
+    $srcStringArray = explode("\r\n", $file1content);
+    $destStringArray = explode("\r\n", $file2content);
+    $arraySource = explode(" ", $sanitizedSource);
+
+    $dictionary = array_combine($srcStringArray,$destStringArray);
+
+    for ($i = 0; $i < sizeof($arraySource); $i++){
+        if (array_key_exists($arraySource[$i], $dictionary)) {
+            $translationOutput = $translationOutput . "" . $dictionary[$arraySource[$i]] . " ";
+        }
+        else {
+            $translationOutput = $translationOutput.$arraySource[$i]. " ";
+        }
     }
-    if ($uploadNum == NULL) {
-        return false;
-    }
-    else {
-        return true;
-    }
+
+    return $translationOutput;
 }
 
 function translateWithWhichModel ($conn, $userID) {
-    $sql = "SELECT textFile1, textFile2 FROM usercontent WHERE idUsers='$userID'";
+    $sql = "SELECT textFile1, textFile2 FROM usercontent ORDER BY uploadNum LIMIT 1;";
     $resultCheck = $conn->query($sql);
     if (!$resultCheck) {
         echo '<p class="uploaderror">Problem loading userData</p>';
@@ -215,11 +232,11 @@ function listenUpload ($conn) {
 }
 
 function saveUserContentToDB ($file1, $file2, $conn) {
-    $file1Sanitized = sanitizeMySQL($conn, $file1); # sanitize file contents
-    $file2Sanitized = sanitizeMySQL($conn, $file2); # sanitize file contents
+    $file1Sanitized = sanitizeMySQL($conn, $file1); # sanitizing file contents removes my white spaces which i need...
+    $file2Sanitized = sanitizeMySQL($conn, $file2);
     $userID = $_SESSION['userId'];
 
-    $sql = "INSERT INTO usercontent VALUES(NULL,'$userID', '$file1Sanitized', '$file2Sanitized')";
+    $sql = "INSERT INTO usercontent VALUES(NULL,'$userID', '$file1', '$file2')";
 
     $resultCheck = $conn->query($sql);
 
