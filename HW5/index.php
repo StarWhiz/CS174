@@ -8,46 +8,30 @@ echo <<< END
         <section class="section-default">
 END;
 
-    if (isset($_SESSION['userId'])) {
+    if (isset($_SESSION['userId'])) { //CASE: User is logged in...
         printLoggedInForms();
-        if(isset($_POST["fileSubmit"])) {
-            $maxFileSize = 65500; # ~64KB max size of TEXT
+        listenEnglishUpload($conn);
+        listenTranslateUpload($conn);
 
-            if ($_FILES['fileUpload']['type'] == 'text/plain'){
-            // Check if file Uploaded is a .txt file
-
-                if ($_FILES['fileUpload']['size'] <= $maxFileSize) {
-                // Check if file is less than 64KB. If success do below...
-                    $theString = sanitizeString($_POST['enteredString']);
-                    $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
-                    saveUserContentToDB($theString, $theFile, $conn); # File sanitation done in function
-                }
-                else {
-                    echo "This file is too large. Please try uploading again with a txt file less than 64KB...";
-                }
-            }
-            else {
-                #echo "This file is not a txt file. Please try uploading again...";
-                echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
-            }
-        }
         //printUserContent($_SESSION['userId'], $conn);
     }
     else {
         if(isset($_GET["error"])) {
             if ($_GET["error"] == "emptyfields") {
-                echo '<p class="signuperror">Can\'t login. Either username and/or password fields were empty...</p>';
+                echo '<p class="signuperror">Can\'t login. Either username and/or password fields were empty...</p><br>';
+                printDefaultForms();
             }
             else if ($_GET["error"] == "wrongpwd") {
-                echo '<p class="signuperror">Can\'t login. Password or username Is Incorrect...</p>';
+                echo '<p class="signuperror">Can\'t login. Password or username Is Incorrect...</p><br>';
+                printDefaultForms();
             }
             else if ($_GET["error"] == "nouser") {
-                echo '<p class="signuperror">Can\'t login. Username does not exist!</p>';
+                echo '<p class="signuperror">Can\'t login. Username does not exist!</p><br>';
+                printDefaultForms();
             }
         }
-        else {
-            //echo '<p class = "login-status">Translating from English to French...</p>';
-            printDefaultTranslationForms();
+        else { // CASE: Default... Default Model, User is not logged in..........................................
+            printDefaultForms();
         }
     }
 
@@ -61,11 +45,11 @@ function printLoggedInForms() {
     echo <<< END
         <body>
             <h1>Welcome back! You are logged in.</h1><br><br>
-            <form class="translateform" method='post' action='index.php' enctype='multipart/form-data' id="translateform">
-                <textarea rows="8" cols="75" name="texttotranslate" form="inputform"> Enter text to translate here...</textarea>
+            <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
+                <textarea rows="8" cols="75" name="texttotranslate" form="translateform"> Enter text to translate here...</textarea>
                 <br>
                 <div align="center">
-                    <input type='submit' name="translateSubmit" value='Submit Translation' class="uploadButton">
+                    <input type='submit' name="translateText" value='Submit Translation' class="uploadButton">
                 </div>
             </form>
             <br><br><br><br><br><br>
@@ -86,21 +70,58 @@ function printLoggedInForms() {
 END;
 }
 
-function printDefaultTranslationForms() {
+function printDefaultForms() {
+    $translateResult = "Translated text appears here.";
+
+    if(isset($_POST["translateTextDefault"])) {
+        $translateResult = "there was no spoon";
+    }
+
     echo <<< END
     <body>
         <h1>Welcome to the lame translator!</h1><br><br>
-        <form class="translateform" method='post' action='index.php' enctype='multipart/form-data' id="translateform">
-            <textarea rows="8" cols="75" name="texttotranslate" form="inputform"> Enter text to translate here...</textarea>
+        <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
+            <textarea rows="8" cols="75" name="texttotranslate" form="translateform"> Enter text to translate here...</textarea>
             <br>
             <div align="center">
-                <input type='submit' name="translateSubmit" value='Submit Translation' class="uploadButton">
+                <input type='submit' name="translateTextDefault" value='Submit Translation' class="uploadButton">
             </div>
         </form>
+        <br>
+        <textarea rows="8" cols="75">$translateResult</textarea>
     </body>
 END;
+
 }
 
+function listenEnglishUpload ($conn) {
+    if(isset($_POST["englishSubmit"])) {
+        $maxFileSize = 65500; # ~64KB max size of TEXT
+
+        if ($_FILES['fileUpload']['type'] == 'text/plain'){
+            // Check if file Uploaded is a .txt file
+
+            if ($_FILES['fileUpload']['size'] <= $maxFileSize) {
+                // Check if file is less than 64KB. If success do below...
+                $theString = sanitizeString($_POST['enteredString']);
+                $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
+                saveUserContentToDB($theString, $theFile, $conn); # File sanitation done in function
+            }
+            else {
+                echo "This file is too large. Please try uploading again with a txt file less than 64KB...";
+            }
+        }
+        else {
+            #echo "This file is not a txt file. Please try uploading again...";
+            echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
+        }
+        // $conn -> close(); // TODO: Do i need this here?
+    }
+}
+
+function listenTranslateUpload ($conn) {
+
+}
 
 function saveUserContentToDB ($string, $file, $conn) {
     $fileSanitized = sanitizeMySQL($conn, $file); # sanitize file contents
