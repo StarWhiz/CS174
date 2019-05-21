@@ -71,7 +71,6 @@ END;
 }
 
 function printDefaultForms() {
-    $sourceToTranslate = "";
     $translateResult = "Translated text appears here.";
     if(isset($_POST["submitSourceTxt"])) {
         $source = $_POST["sourceTxtToTranslate"];
@@ -80,38 +79,63 @@ function printDefaultForms() {
 
     echo <<< END
     <body>
-        <h1>Welcome to the lame translator!</h1><br><br>
+        <h1>Welcome to the lame translator!</h1>
+        <h4>This translates from English to Latin by default.</h4>
+        <br><br>
+        <h4>Input: </h4>
         <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
-            <textarea name="sourceTxtToTranslate" rows="8" cols="75"> Enter text to translate here...</textarea>
+            <textarea name="sourceTxtToTranslate" rows="8" cols="75">Enter English text to translate here...</textarea> 
             <br>
             <div align="center">
                 <input type="submit" name="submitSourceTxt" value="Submit Translation" class="uploadButton">
             </div>
         </form>
         
-        <br>
+        <h4>Output: </h4>
         <textarea rows="8" cols="75">$translateResult</textarea>
     </body>
 END;
 }
 
+
 function translateWithDefaultModel ($source) {
     $english_fp = "english.txt";
     $latin_fp = "latin.txt";
+    $englishString = "";
+    $latinString = "";
     if (file_exists($english_fp)){
-        fopen($english_fp,'r');
+        $englishString = file_get_contents($english_fp);
     }
     else {
         echo "The file $english_fp does not exist!";
     }
     if (file_exists($latin_fp)){
-        fopen($latin_fp,'r');
+        $latinString = file_get_contents($latin_fp);
+
     }
     else {
         echo "The file $latin_fp does not exist!";
     }
     $sanitizedSource = sanitizeString($source);
-    return $sanitizedSource;
+    $translationOutput = "";
+
+    // Split strings into array with explode
+    $englishStringArray = explode("\r\n", $englishString);
+    //print_r($englishStringArray);
+    $latinStringArray = explode("\r\n", $latinString);
+    $arraySource = explode(" ", $sanitizedSource);
+
+    $dictionary = array_combine($englishStringArray,$latinStringArray);
+
+    for ($i = 0; $i < sizeof($arraySource); $i++){
+        if (array_key_exists($arraySource[$i], $dictionary)) {
+            $translationOutput = $translationOutput . "" . $dictionary[$arraySource[$i]] . " ";
+        }
+        else {
+            $translationOutput = $translationOutput.$arraySource[$i]. " ";
+        }
+    }
+    return $translationOutput;
 }
 
 function listenEnglishUpload ($conn) {
