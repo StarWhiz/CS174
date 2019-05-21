@@ -152,8 +152,8 @@ function translateWithDefaultModel ($source) {
     return $translationOutput;
 }
 
-/*
-function translateWithUserModel ($source, $userID, $conn) {
+
+/*function translateWithUserModel ($source, $userID, $conn) {
     $uploadNum = "";
     $sql = "SELECT * WHERE idUsers='$userID'";
     $resultCheck = $conn->query($sql);
@@ -173,15 +173,20 @@ function translateWithUserModel ($source, $userID, $conn) {
 }*/
 
 function translateWithWhichModel ($conn, $userID) {
-    $sql = "SELECT * WHERE idUsers='$userID'";
+    $sql = "SELECT textFile1, textFile2 FROM usercontent WHERE idUsers='$userID'";
     $resultCheck = $conn->query($sql);
     if (!$resultCheck) {
-        return false;
         echo '<p class="uploaderror">Problem loading userData</p>';
         die('execute() failed: ' . $conn->error);
     }
     else {
-        return true;
+        if($resultCheck->num_rows === 0)
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }
 
