@@ -10,10 +10,7 @@ END;
 
     if (isset($_SESSION['userId'])) { //CASE: User is logged in...
         printLoggedInForms();
-        listenEnglishUpload($conn);
-        listenTranslateUpload($conn);
-
-        //printUserContent($_SESSION['userId'], $conn);
+        listenUpload($conn);
     }
     else {
         if(isset($_GET["error"])) {
@@ -42,29 +39,37 @@ echo <<< END
 END;
 
 function printLoggedInForms() {
+    $translateResult = "Translated text appears here.";
+    if(isset($_POST["submitSourceTxtV2"])) {
+        $source = $_POST["sourceTxtToTranslateV2"];
+        $translateResult = translateWithDefaultModel($source);
+    }
     echo <<< END
         <body>
             <h1>Welcome back! You are logged in.</h1><br><br>
-            <form method='post' action='index.php' enctype='text/plain' id="translateForm">
-                <textarea rows="8" cols="75" name="texttotranslate" form="translateform"> Enter text to translate here...</textarea>
+            <h4>Input: </h4>
+            <form method='post' action='index.php' enctype='multipart/form-data' id="translateForm">
+                <textarea name="sourceTxtToTranslateV2" rows="8" cols="75">Enter English text to translate here...</textarea> 
                 <br>
                 <div align="center">
-                    <input type='submit' value='Submit Translation' class="uploadButton">
+                    <input type="submit" name="submitSourceTxtV2" value="Submit Translation" class="uploadButton">
                 </div>
             </form>
+            <h4>Output: </h4>
+            <textarea rows="8" cols="75">$translateResult</textarea>
+        
             <br><br><br><br><br><br>
             <h4>To use your own translation model. Please upload two files. One containing english words and the 
             other containing the translation. After this the translator will use your model instead of the default.</h4>
             <br>
             <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data' id="uploadform">
                 <br>
-                Upload a .txt file containing english words:
-                <input type='file' name='fileUpload' id='fileID'/>
-                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
+                Choose a .txt file containing english words:
+                <input type='file' name='fileUpload1' id='fileID'/>
                 <br><br>
-                Upload a .txt file containing it's translation:
-                <input type='file' name='fileUpload' id='fileID'/>
-                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
+                Choose a .txt file containing it's translation:
+                <input type='file' name='fileUpload2' id='fileID'/>
+                <input type='submit' name="uploadTxtFiles" value='Upload' class="uploadButton">
             </form>
         </body>        
 END;
@@ -138,18 +143,18 @@ function translateWithDefaultModel ($source) {
     return $translationOutput;
 }
 
-function listenEnglishUpload ($conn) {
-    if(isset($_POST["englishSubmit"])) {
+function listenUpload ($conn) {
+    if(isset($_POST["uploadTxtFiles"])) {
         $maxFileSize = 65500; # ~64KB max size of TEXT
 
-        if ($_FILES['fileUpload']['type'] == 'text/plain'){
+        if ($_FILES['fileUpload1']['type'] == 'text/plain' && $_FILES['fileUpload2']['type'] == 'text/plain' ){
             // Check if file Uploaded is a .txt file
 
-            if ($_FILES['fileUpload']['size'] <= $maxFileSize) {
+            if ($_FILES['fileUpload1']['size'] <= $maxFileSize && $_FILES['fileUpload2']['size'] <= $maxFileSize) {
                 // Check if file is less than 64KB. If success do below...
-                $theString = sanitizeString($_POST['enteredString']);
-                $theFile = file_get_contents($_FILES['fileUpload']['tmp_name']);
-                saveUserContentToDB($theString, $theFile, $conn); # File sanitation done in function
+                $theFile1 = file_get_contents($_FILES['fileUpload1']['tmp_name']);
+                $theFile2 = file_get_contents($_FILES['fileUpload2']['tmp_name']);
+                saveUserContentToDB($theFile1, $theFile2, $conn); # File sanitation done in function
             }
             else {
                 echo "This file is too large. Please try uploading again with a txt file less than 64KB...";
@@ -159,7 +164,7 @@ function listenEnglishUpload ($conn) {
             #echo "This file is not a txt file. Please try uploading again...";
             echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
         }
-        // $conn -> close(); // TODO: Do i need this here?
+        $conn -> close(); // TODO: Do i need this here?
     }
 }
 
@@ -167,13 +172,18 @@ function listenTranslateUpload ($conn) {
 
 }
 
-function saveUserContentToDB ($string, $file, $conn) {
-    $fileSanitized = sanitizeMySQL($conn, $file); # sanitize file contents
+function saveUserContentToDB ($file1, $file2, $conn) {
+    $file1Sanitized = sanitizeMySQL($conn, $file1); # sanitize file contents
+    $file2Sanitized = sanitizeMySQL($conn, $file2); # sanitize file contents
+    print_r($file1Sanitized);
+    echo '<br>';
+    print_r($file2Sanitized);
     $userID = $_SESSION['userId'];
 
-    $sql = "INSERT INTO userContent VALUES(NULL,'$userID', '$string', '$fileSanitized')";
+    $sql = "INSERT INTO usercontent VALUES(NULL,'$userID', '$file1Sanitized', '$file2Sanitized')";
 
     $resultCheck = $conn->query($sql);
+
     if (!$resultCheck) {
         echo '<p class="uploaderror">File upload failed!</p>';
         die('execute() failed: ' . $conn->error);
@@ -224,4 +234,8 @@ function printUserContent($userID, $conn) {
     }
     echo '</table>';
     $conn -> close(); //TODO: make sure this doesnt break anything
+}
+
+function checkUploads($userID, $conn) {
+
 }
