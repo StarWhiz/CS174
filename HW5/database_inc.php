@@ -25,11 +25,11 @@ else {
         echo "Error creating users table: " . mysqli_error($conn);
     }
 
-    $sql2 = "CREATE TABLE IF NOT EXISTS usercontent (
+    $sql2 = "CREATE TABLE IF NOT EXISTS userContent (
     uploadNum int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
     idUsers int(11) NOT NULL,
-    textFile1 LONGTEXT,
-    textFile2 LONGTEXT
+    stringContent TINYTEXT NOT NULL,
+    textFile TEXT
     );";
 
     if (mysqli_query($conn, $sql2)) {
