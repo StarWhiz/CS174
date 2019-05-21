@@ -1,7 +1,6 @@
 <?php
     require_once "header.php";
     require_once 'database_inc.php';
-    //TODO: Make sign up less of a pain if they sign up but enter wrong passwords
 
 echo <<< END
 <main>
@@ -10,19 +9,7 @@ echo <<< END
 END;
 
     if (isset($_SESSION['userId'])) {
-echo <<< END
-        <body>
-            <h1>Welcome to the site!</h1><br><br>
-            <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data'>
-                Please enter a string to describe your file:
-                <input type="text" name="enteredString">
-                <br>
-                Then, please upload a .txt File:
-                <input type='file' name='fileUpload' id='fileID'/>
-                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
-            </form>
-        </body>        
-END;
+        printLoggedInForms();
         if(isset($_POST["fileSubmit"])) {
             $maxFileSize = 65500; # ~64KB max size of TEXT
 
@@ -44,7 +31,7 @@ END;
                 echo '<p class="uploaderror">This file is not a txt file. Please try uploading again...</p>';
             }
         }
-        printUserContent($_SESSION['userId'], $conn);
+        //printUserContent($_SESSION['userId'], $conn);
     }
     else {
         if(isset($_GET["error"])) {
@@ -59,7 +46,8 @@ END;
             }
         }
         else {
-            echo '<p class = "login-status">Status: Not Logged In</p>';
+            //echo '<p class = "login-status">Translating from English to French...</p>';
+            printDefaultTranslationForms();
         }
     }
 
@@ -68,6 +56,51 @@ echo <<< END
     </div>
 </main>
 END;
+
+function printLoggedInForms() {
+    echo <<< END
+        <body>
+            <h1>Welcome back! You are logged in.</h1><br><br>
+            <form class="translateform" method='post' action='index.php' enctype='multipart/form-data' id="translateform">
+                <textarea rows="8" cols="75" name="texttotranslate" form="inputform"> Enter text to translate here...</textarea>
+                <br>
+                <div align="center">
+                    <input type='submit' name="translateSubmit" value='Submit Translation' class="uploadButton">
+                </div>
+            </form>
+            <br><br><br><br><br><br>
+            <h4>To use your own translation model. Please upload two files. One containing english words and the 
+            other containing the translation. After this the translator will use your model instead of the default.</h4>
+            <br>
+            <form class="uploadform" method='post' action='index.php' enctype='multipart/form-data' id="uploadform">
+                <br>
+                Upload a .txt file containing english words:
+                <input type='file' name='fileUpload' id='fileID'/>
+                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
+                <br><br>
+                Upload a .txt file containing it's translation:
+                <input type='file' name='fileUpload' id='fileID'/>
+                <input type='submit' name="fileSubmit" value='Upload' class="uploadButton">
+            </form>
+        </body>        
+END;
+}
+
+function printDefaultTranslationForms() {
+    echo <<< END
+    <body>
+        <h1>Welcome to the lame translator!</h1><br><br>
+        <form class="translateform" method='post' action='index.php' enctype='multipart/form-data' id="translateform">
+            <textarea rows="8" cols="75" name="texttotranslate" form="inputform"> Enter text to translate here...</textarea>
+            <br>
+            <div align="center">
+                <input type='submit' name="translateSubmit" value='Submit Translation' class="uploadButton">
+            </div>
+        </form>
+    </body>
+END;
+}
+
 
 function saveUserContentToDB ($string, $file, $conn) {
     $fileSanitized = sanitizeMySQL($conn, $file); # sanitize file contents
